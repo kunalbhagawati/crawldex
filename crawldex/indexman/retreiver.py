@@ -1,8 +1,9 @@
-from django.conf import settings
-from indexman.models import MappingUrlTimestamp
+import os
+
 import redis
 
-shared_folder_path = settings.SHARED_FOLDER_PATH
+from django.conf import settings
+from indexman.models import MappingUrlTimestamp
 
 
 def read_file(file_path):
@@ -23,3 +24,13 @@ def save_to_model(file_name, url, parsed_ts, status_code, html_str):
     md5_hash = mdl.md5
     r = redis.StrictRedis()
     r.set('{}__{}'.format(md5_hash, parsed_ts), html_str)
+
+
+def get_crawled_files():
+    """
+    Hits the crawled files folder and gets the files.
+    """
+
+    shared_folder_path = settings.SHARED_FOLDER_PATH
+    file_names = os.listdir(shared_folder_path)
+    return file_names
