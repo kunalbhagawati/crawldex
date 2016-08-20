@@ -6,10 +6,10 @@ from rest_framework import status
 class RawHTMLSearchView(APIView):
 
     def get(self, request, format=None):
-        pass
+        return Response("Hi")
 
 
 class URLSearchView(APIView):
 
     def get(self, request, format=None):
-        pass
+        return Response("Hi")
