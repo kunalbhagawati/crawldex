@@ -19,9 +19,8 @@ def read_file(file_path):
 def save_to_model(file_name, url, parsed_ts, status_code, html_str):
     mdl = MappingUrlTimestamp(url=url, filename=file_name, indexed_timestamp=parsed_ts, status_code=status_code)
     mdl.save()
-    md5_hash = mdl.md5
     r = redis.StrictRedis()
-    r.set('{}__{}'.format(md5_hash, parsed_ts), html_str)
+    r.set('{}__{}'.format(mdl.url, parsed_ts), html_str)
 
 
 def get_crawled_file_names():
