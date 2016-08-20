@@ -13,9 +13,7 @@ def read_file(file_path):
         url, parsed_ts, status_code = first_line.strip().split('\t')
         url = u'{}'.format(url)
         html_str = fp.read()
-        # return url, parsed_ts, status_code, html_str
-
-        save_to_model(file_path, url, parsed_ts, status_code, html_str)
+        return url, parsed_ts, status_code, html_str
 
 
 def save_to_model(file_name, url, parsed_ts, status_code, html_str):
@@ -26,7 +24,7 @@ def save_to_model(file_name, url, parsed_ts, status_code, html_str):
     r.set('{}__{}'.format(md5_hash, parsed_ts), html_str)
 
 
-def get_crawled_files():
+def get_crawled_file_names():
     """
     Hits the crawled files folder and gets the files.
     """
@@ -34,3 +32,15 @@ def get_crawled_files():
     shared_folder_path = settings.SHARED_FOLDER_PATH
     file_names = os.listdir(shared_folder_path)
     return file_names
+
+
+def crawl():
+    file_names = get_crawled_file_names()
+    for fn in file_names:
+        abs_file_path = '{}{}'.format(settings.SHARED_FOLDER_PATH, fn)
+        url, parsed_ts, status_code, html_str = read_file(abs_file_path)
+        save_to_model(fn, url, parsed_ts, status_code, html_str)
+
+
+if __name__ == '__main__':
+    crawl()
