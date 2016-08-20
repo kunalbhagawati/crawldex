@@ -15,13 +15,13 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
-
 from indexman import views
+
 
 urlpatterns = [
     url(r'^search/', views.URLSearchView.as_view()),
     url(r'^raw/', views.RawHTMLSearchView.as_view()),
 
     url(r'^admin/', admin.site.urls),
-    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
+    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 ]
